@@ -1,0 +1,63 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model usuario {
+  id_usuario Int       @id @default(autoincrement())
+  nome       String
+  email      String    @unique
+  senha      String
+  telefone   String?
+  garagens   garagem[] @relation("GaragensCedido")
+  alugueis   aluguel[] @relation("AlugueisFeitos")
+  criado     DateTime  @default(now())
+  atualizado DateTime  @updatedAt
+}
+
+model garagem {
+  id_garagem Int       @id @default(autoincrement())
+  descricao  String?
+  endereco   String
+  latitude   Float
+  longitude  Float
+  preco_Hora Float
+  disponivel Boolean   @default(true)
+  id_usuario Int
+  usuario    usuario   @relation("GaragensCedido", fields: [id_usuario], references: [id_usuario])
+  agenda     agenda[]
+  alugueis   aluguel[] @relation("GaragemAlugada")
+  criado     DateTime  @default(now())
+  atualizado DateTime  @updatedAt
+}
+
+model aluguel {
+  id_aluguel  Int      @id @default(autoincrement())
+  id_usuario  Int
+  usuario     usuario  @relation("AlugueisFeitos", fields: [id_usuario], references: [id_usuario])
+  id_garagem  Int
+  garagem     garagem  @relation("GaragemAlugada", fields: [id_garagem], references: [id_garagem])
+  inicio      DateTime
+  fim         DateTime
+  valor_total Float
+  criado      DateTime @default(now())
+  atualizado  DateTime @updatedAt
+}
+
+model agenda {
+  id          Int      @id @default(autoincrement())
+  id_garagem  Int
+  garagem     garagem  @relation(fields: [id_garagem], references: [id_garagem])
+  dia         DateTime
+  hora_inicio DateTime
+  hora_fim    DateTime
+  disponivel  Boolean  @default(true)
+  criado      DateTime @default(now())
+  atualizado  DateTime @updatedAt
+}
