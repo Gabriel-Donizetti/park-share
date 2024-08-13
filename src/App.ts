@@ -4,7 +4,7 @@ import cors from 'cors';
 import routes from './routes/Routes';
 import swaggerUi from 'swagger-ui-express';
 import specs from './utils/SwaggerConfig';
-
+import 'module-alias/register';
 
 const app = express();
 

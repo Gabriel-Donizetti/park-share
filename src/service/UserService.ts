@@ -8,12 +8,28 @@ export default class UserService {
         this.userRepository = new UserRepository();
     }
 
-    async create(User: CreateUserDto) {
-        const trainer = await this.userRepository.create(User);
-        if (!trainer) {
-            throw new Error('Error on create user')
+    async create(u: CreateUserDto) {
+        const find = await this.userRepository.find(u.email);
+
+        if (find) {
+            throw new Error('Email is already in use')
         }
-        return trainer;
+
+        const user = await this.userRepository.create(u);
+        if (!user) {
+            throw new Error('On create user')
+        }
+        return 'User created';
+    }
+
+    async login(email: string, senha: string) {
+        const find = await this.userRepository.login(email, senha);
+        
+        if (!find) {
+            throw new Error('User not found')
+        }
+
+        return 'User found';
     }
 
     // async get(id: number) {

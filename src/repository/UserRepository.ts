@@ -4,6 +4,28 @@ import { CreateUserDto } from "src/interfaces/UserDto";
 
 class UserRepository {
 
+    async find(email: string){
+        const user = await prisma.usuario.findUnique({
+            where:{
+                email
+            }
+        })
+
+        return user
+    }
+
+    async login(email: string, senha: string){
+        const user = await prisma.usuario.findUnique({
+            where:{
+                email,
+                senha
+            }
+        })
+
+        return user
+    }
+
+
     async create(u: CreateUserDto) {
         const user = await prisma.usuario.create({
             data: {
@@ -11,7 +33,7 @@ class UserRepository {
                 email: u.email,
                 senha: u.senha,
                 telefone: u.telefone
-            },
+            }
         })
         return user;
     }
