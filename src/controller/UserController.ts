@@ -19,8 +19,8 @@ export class UserController {
 
             const resService = await service.create(user)
             return res.status(200).json({ resService });
-        } catch (error: any) {
-            return res.status(502).json({ message: error.message });
+        } catch (e) {
+            return res.status(502).json({ message: (e as Error).message });
         }
     }
 
@@ -31,8 +31,8 @@ export class UserController {
 
             const resService = await service.login(email, senha)
             return res.status(200).json({ resService });
-        } catch (error: any) {
-            return res.status(502).json({ message: error.message });
+        } catch (e) {
+            return res.status(502).json({ message: (e as Error).message });
         }
     }
 
