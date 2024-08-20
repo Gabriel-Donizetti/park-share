@@ -23,8 +23,8 @@ model usuario {
 
 model garagem {
   id_garagem Int       @id @default(autoincrement())
-  descricao  String?
   endereco   String
+  descricao  String?
   latitude   Float
   longitude  Float
   preco_Hora Float

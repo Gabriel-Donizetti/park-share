@@ -25,6 +25,8 @@ const routes: Router = Router();
  * /signin:
  *   post:
  *     summary: Cria um novo usuário.
+ *     tags: 
+ *       - Usuario
  *     requestBody:
  *       required: true
  *       content:
@@ -64,13 +66,11 @@ routes.post("/signin", UserController.create)
  *   post:
  *     summary: Login de usuário.
  *     tags: 
- *       - Autenticação
+ *       - Usuario
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/LoginRequest'
  *     responses:
  *       200:
  *         description: Usuário logado com sucesso.
